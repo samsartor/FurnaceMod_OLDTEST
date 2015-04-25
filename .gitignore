@@ -3,4 +3,6 @@
 .settings/
 *.project
 *.classpath
-build/
+.recommenders/
+*/build/
+*/bin/

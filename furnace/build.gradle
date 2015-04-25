@@ -11,4 +11,5 @@ repositories
 dependencies 
 {
 	testCompile 'junit:junit:4.11'
+	compile 'org.mozilla:rhino:1.7.6'
 }
