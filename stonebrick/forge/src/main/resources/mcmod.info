@@ -1,0 +1,16 @@
+[
+{
+  "modid": "stonebrick",
+  "name": "StoneBrick",
+  "description": "A Furnace implementation for forge.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["eekysam"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

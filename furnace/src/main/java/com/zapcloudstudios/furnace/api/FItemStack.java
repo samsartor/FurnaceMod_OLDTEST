@@ -7,4 +7,6 @@ public interface FItemStack extends FurnaceI
 	public int metadata();
 	
 	public int size();
+	
+	public void rename(String name);
 }

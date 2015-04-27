@@ -3,7 +3,7 @@ const blocks = (function() {
 	var list = minecraft.listBlocks();
 	for (int i = 0; i < list.length; i++)
 	{
-		blocks[propNameOfMCID(list[i].id())] = list[i];
+		blocks[propNameFromMCID(list[i].id())] = list[i];
 	}
 	return blocks;
 })();
@@ -12,12 +12,12 @@ const items = (function() {
 	var list = minecraft.listItems();
 	for (int i = 0; i < list.length; i++)
 	{
-		items[propNameOfMCID(list[i].id())] = list[i];
+		items[propNameFromMCID(list[i].id())] = list[i];
 	}
 	return items;
 })();
 
-const propNameOfMCID = function (id)
+const propNameFromMCID = function (id)
 {
 	if (id.indexOf("minecraft" == 0))
 	{
@@ -25,7 +25,7 @@ const propNameOfMCID = function (id)
 	}
 	else
 	{
-		id = id.replace(":","$")
+		id = id.replace(":","$");
 	}
 	return id;
 };
@@ -33,3 +33,10 @@ const propNameOfMCID = function (id)
 const overworld = worlds.get(0);
 const nether = worlds.get(-1);
 const theend = worlds.get(1);
+
+const isRemote = minecraft.isRemote();
+
+const chat = function (msg)
+{
+	minecraft.sendChat(msg);
+};

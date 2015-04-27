@@ -4,5 +4,8 @@
 *.project
 *.classpath
 .recommenders/
-*/build/
-*/bin/
+
+stonebrick/forge/bin/
+furnace/bin/
+stonebrick/forge/build/
+furnace/build/
