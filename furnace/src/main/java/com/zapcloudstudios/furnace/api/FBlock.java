@@ -4,5 +4,5 @@ public interface FBlock extends FurnaceI
 {
 	public String id();
 	
-	public String name();
+	public FItem item();
 }
