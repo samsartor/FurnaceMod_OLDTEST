@@ -6,11 +6,10 @@ import net.minecraft.item.Item;
 import com.zapcloudstudios.furnace.api.FBlock;
 import com.zapcloudstudios.furnace.api.FItem;
 
-public class SBBlock implements FBlock
+public class SBBlock extends FBlock
 {
 	private final Block block;
 	private final FItem item;
-	private final String id;
 	
 	public SBBlock(Block block)
 	{
@@ -25,12 +24,6 @@ public class SBBlock implements FBlock
 		{
 			this.item = new SBItem(i);
 		}
-	}
-	
-	@Override
-	public String id()
-	{
-		return this.id;
 	}
 	
 	@Override

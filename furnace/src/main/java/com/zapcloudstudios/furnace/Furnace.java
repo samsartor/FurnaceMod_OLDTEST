@@ -1,5 +1,7 @@
 package com.zapcloudstudios.furnace;
 
+import java.util.HashMap;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -7,6 +9,10 @@ import org.mozilla.javascript.ScriptableObject;
 import com.zapcloudstudios.furnace.api.FBlock;
 import com.zapcloudstudios.furnace.api.FItem;
 import com.zapcloudstudios.furnace.api.FMinecraft;
+import com.zapcloudstudios.furnace.api.FurnaceI;
+import com.zapcloudstudios.furnace.wrap.FunctionRef;
+import com.zapcloudstudios.furnace.wrap.FurnaceWrapFactory;
+import com.zapcloudstudios.furnace.wrap.NativeFurnaceObject;
 
 public class Furnace
 {
@@ -16,6 +22,9 @@ public class Furnace
 	public Scriptable global;
 	
 	public final IFurnaceImpl impl;
+	
+	private HashMap<FItem, Scriptable> items;
+	private HashMap<FBlock, Scriptable> blocks;
 	
 	public Furnace(IFurnaceImpl impl)
 	{
@@ -27,6 +36,7 @@ public class Furnace
 		if (this.context == null)
 		{
 			this.context = Context.enter();
+			this.context.setWrapFactory(new FurnaceWrapFactory(this));
 			this.shared = this.context.initSafeStandardObjects();
 			this.shared.sealObject();
 		}
@@ -56,6 +66,9 @@ public class Furnace
 			return;
 		}
 		
+		this.blocks = new HashMap<FBlock, Scriptable>();
+		this.items = new HashMap<FItem, Scriptable>();
+		
 		this.global = null;
 		this.global = this.newObject();
 		
@@ -68,6 +81,47 @@ public class Furnace
 		ScriptableObject.putConstProperty(this.global, "overworld", Context.javaToJS(mc.getWorld(0), this.shared));
 		ScriptableObject.putConstProperty(this.global, "nether", Context.javaToJS(mc.getWorld(-1), this.shared));
 		ScriptableObject.putConstProperty(this.global, "theend", Context.javaToJS(mc.getWorld(1), this.shared));
+		
+		this.putShortcut("chat", mc, "sendChat", String.class);
+		this.putShortcut("command", mc, "command", String.class);
+		this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);
+	}
+	
+	public void putShortcut(String name, Object object, String function, Class<?>... args)
+	{
+		try
+		{
+			ScriptableObject.putConstProperty(this.global, name, new FunctionRef(object.getClass().getMethod(function, args), object));
+		}
+		catch (NoSuchMethodException | SecurityException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public Scriptable getWrap(FurnaceI furn)
+	{
+		if (furn instanceof FItem)
+		{
+			Scriptable out = this.items.get(furn);
+			if (out == null)
+			{
+				out = new NativeFurnaceObject(furn);
+				this.items.put((FItem) furn, out);
+			}
+			return out;
+		}
+		if (furn instanceof FBlock)
+		{
+			Scriptable out = this.blocks.get(furn);
+			if (out == null)
+			{
+				out = new NativeFurnaceObject(furn);
+				this.blocks.put((FBlock) furn, out);
+			}
+			return out;
+		}
+		return new NativeFurnaceObject(furn);
 	}
 	
 	private Scriptable initItems()
@@ -75,7 +129,7 @@ public class Furnace
 		Scriptable items = this.newObject();
 		for (FItem item : this.impl.listItems())
 		{
-			ScriptableObject.putConstProperty(items, FurnaceUtils.resourceIdToPropertyName(item.id()), Context.javaToJS(item, this.shared));
+			ScriptableObject.putConstProperty(items, FurnaceUtils.resourceIdToPropertyName(item.id), Context.javaToJS(item, this.shared));
 		}
 		return items;
 	}
@@ -85,7 +139,7 @@ public class Furnace
 		Scriptable blocks = this.newObject();
 		for (FBlock block : this.impl.listBlocks())
 		{
-			ScriptableObject.putConstProperty(blocks, FurnaceUtils.resourceIdToPropertyName(block.id()), Context.javaToJS(block, this.shared));
+			ScriptableObject.putConstProperty(blocks, FurnaceUtils.resourceIdToPropertyName(block.id), Context.javaToJS(block, this.shared));
 		}
 		return blocks;
 	}

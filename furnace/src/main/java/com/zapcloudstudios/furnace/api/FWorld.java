@@ -1,6 +1,10 @@
 package com.zapcloudstudios.furnace.api;
 
-public interface FWorld extends FurnaceI
+public class FWorld implements FurnaceI
 {
-	
+	@Override
+	public String typeName()
+	{
+		return "World";
+	}
 }
