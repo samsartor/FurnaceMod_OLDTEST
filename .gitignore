@@ -9,3 +9,7 @@ stonebrick/forge/bin/
 furnace/bin/
 stonebrick/forge/build/
 furnace/build/
+stonebrick/forge/config/
+stonebrick/forge/logs/
+stonebrick/forge/saves/
+stonebrick/forge/usernamecache.json

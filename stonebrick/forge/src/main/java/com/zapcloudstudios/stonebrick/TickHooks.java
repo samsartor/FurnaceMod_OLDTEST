@@ -5,6 +5,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class TickHooks
 {
+	public TickHooks(StoneBrick sb)
+	{
+		
+	}
+	
 	@SubscribeEvent
 	public void onTickC(TickEvent.ClientTickEvent tick)
 	{

@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.HashMap;
@@ -197,7 +198,7 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 	{
 		for (Field field : clazz.getDeclaredFields())
 		{
-			if (field.isAccessible())
+			if (Modifier.isPublic(field.getModifiers()))
 			{
 				if (field.isAnnotationPresent(JSProp.class))
 				{
@@ -207,7 +208,7 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 		}
 		for (Method method : clazz.getDeclaredMethods())
 		{
-			if (method.isAccessible())
+			if (Modifier.isPublic(method.getModifiers()))
 			{
 				if (method.isAnnotationPresent(JSFunc.class))
 				{

@@ -6,12 +6,10 @@ public abstract class FMinecraft implements FurnaceI
 {
 	public abstract void sendChat(String msg);
 	
-	public abstract void command(String com);
-	
-	public abstract void command(double x, double y, double z, String com);
-	
 	@JSFunc(name = "getWorld")
 	public abstract FWorld getWorld(int dimention);
+	
+	public abstract void command(String com);
 	
 	@Override
 	public String typeName()

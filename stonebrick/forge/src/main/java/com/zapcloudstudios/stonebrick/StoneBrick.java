@@ -2,10 +2,12 @@ package com.zapcloudstudios.stonebrick;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-
+import net.minecraft.server.MinecraftServer;
+import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.IFurnaceImpl;
 import com.zapcloudstudios.furnace.api.FBlock;
 import com.zapcloudstudios.furnace.api.FItem;
@@ -16,11 +18,26 @@ import com.zapcloudstudios.stonebrick.api.SBMinecraft;
 
 public class StoneBrick implements IFurnaceImpl
 {
+	public MinecraftServer server;
 	public SBMinecraft mc;
+	public Furnace furnace;
 	
-	public StoneBrick()
+	public StoneBrick(MinecraftServer minecraftServer)
 	{
-		this.mc = new SBMinecraft();
+		this.server = minecraftServer;
+		this.furnace = new Furnace(this);
+		this.mc = new SBMinecraft(this);
+	}
+	
+	public void start()
+	{
+		this.furnace.enter();
+		this.furnace.init();
+	}
+	
+	public void close()
+	{
+		this.furnace.exit();
 	}
 	
 	@Override

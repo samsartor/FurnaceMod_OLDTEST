@@ -23,9 +23,19 @@ public class FunctionRef extends BaseFunction
 	@Override
 	public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args)
 	{
+		Class<?>[] argtypes = this.javaMethod.getParameterTypes();
+		Object[] jargs = new Object[argtypes.length];
+		if (jargs.length < args.length)
+		{
+			return null;
+		}
+		for (int i = 0; i < args.length; i++)
+		{
+			jargs[i] = Context.jsToJava(args, argtypes[i]);
+		}
 		try
 		{
-			return this.javaMethod.invoke(this.object, args);
+			return Context.javaToJS(this.javaMethod.invoke(this.object, args), scope);
 		}
 		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
 		{

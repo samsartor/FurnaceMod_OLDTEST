@@ -13,6 +13,7 @@ import com.zapcloudstudios.furnace.api.FurnaceI;
 import com.zapcloudstudios.furnace.wrap.FunctionRef;
 import com.zapcloudstudios.furnace.wrap.FurnaceWrapFactory;
 import com.zapcloudstudios.furnace.wrap.NativeFurnaceObject;
+import com.zapcloudstudios.furnace.wrap.PropMap;
 
 public class Furnace
 {
@@ -83,8 +84,8 @@ public class Furnace
 		ScriptableObject.putConstProperty(this.global, "theend", Context.javaToJS(mc.getWorld(1), this.shared));
 		
 		this.putShortcut("chat", mc, "sendChat", String.class);
-		this.putShortcut("command", mc, "command", String.class);
-		this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);
+		//this.putShortcut("command", mc, "command", String.class);
+		//this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);
 	}
 	
 	public void putShortcut(String name, Object object, String function, Class<?>... args)
@@ -126,20 +127,20 @@ public class Furnace
 	
 	private Scriptable initItems()
 	{
-		Scriptable items = this.newObject();
+		PropMap items = new PropMap(true);
 		for (FItem item : this.impl.listItems())
 		{
-			ScriptableObject.putConstProperty(items, FurnaceUtils.resourceIdToPropertyName(item.id), Context.javaToJS(item, this.shared));
+			items.put(FurnaceUtils.resourceIdToPropertyName(item.id), (Scriptable) Context.javaToJS(item, this.shared));
 		}
 		return items;
 	}
 	
 	private Scriptable initBlocks()
 	{
-		Scriptable blocks = this.newObject();
+		PropMap blocks = new PropMap(true);
 		for (FBlock block : this.impl.listBlocks())
 		{
-			ScriptableObject.putConstProperty(blocks, FurnaceUtils.resourceIdToPropertyName(block.id), Context.javaToJS(block, this.shared));
+			blocks.put(FurnaceUtils.resourceIdToPropertyName(block.id), (Scriptable) Context.javaToJS(block, this.shared));
 		}
 		return blocks;
 	}
