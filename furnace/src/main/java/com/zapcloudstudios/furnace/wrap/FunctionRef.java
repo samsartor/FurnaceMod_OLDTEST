@@ -7,6 +7,8 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.zapcloudstudios.furnace.FurnaceUtils;
+
 public class FunctionRef extends BaseFunction
 {
 	private static final long serialVersionUID = 4296247151079223585L;
@@ -31,7 +33,8 @@ public class FunctionRef extends BaseFunction
 		}
 		for (int i = 0; i < args.length; i++)
 		{
-			jargs[i] = Context.jsToJava(args, argtypes[i]);
+			System.out.println(args[i].getClass());
+			jargs[i] = FurnaceUtils.fixType(Context.jsToJava(args, argtypes[i]));
 		}
 		try
 		{

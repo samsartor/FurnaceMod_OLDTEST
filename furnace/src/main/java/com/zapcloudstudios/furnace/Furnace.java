@@ -52,6 +52,11 @@ public class Furnace
 		}
 	}
 	
+	public FurnaceContext makeContext()
+	{
+		return new FurnaceContext(this.context, this.newObject());
+	}
+	
 	public Scriptable newObject()
 	{
 		Scriptable o = this.context.newObject(this.shared);
@@ -84,7 +89,7 @@ public class Furnace
 		ScriptableObject.putConstProperty(this.global, "theend", Context.javaToJS(mc.getWorld(1), this.shared));
 		
 		this.putShortcut("chat", mc, "sendChat", String.class);
-		//this.putShortcut("command", mc, "command", String.class);
+		this.putShortcut("command", mc, "command", String.class);
 		//this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);
 	}
 	

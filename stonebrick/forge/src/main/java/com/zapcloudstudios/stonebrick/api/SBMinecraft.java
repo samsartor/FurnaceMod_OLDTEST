@@ -5,9 +5,11 @@ import java.util.Map;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.DimensionManager;
 
 import com.zapcloudstudios.furnace.api.FMinecraft;
 import com.zapcloudstudios.furnace.api.FWorld;
+import com.zapcloudstudios.stonebrick.ComFuncSender;
 import com.zapcloudstudios.stonebrick.StoneBrick;
 
 public class SBMinecraft extends FMinecraft
@@ -15,6 +17,8 @@ public class SBMinecraft extends FMinecraft
 	public Map<Integer, SBWorld> worlds;
 	private MinecraftServer server;
 	private StoneBrick sb;
+	
+	private ComFuncSender commandSender;
 	
 	public SBMinecraft(StoneBrick sb)
 	{
@@ -26,7 +30,7 @@ public class SBMinecraft extends FMinecraft
 	@Override
 	public void sendChat(String msg)
 	{
-		this.server.addChatMessage(new ChatComponentText(msg));
+		this.server.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
 	}
 	
 	@Override
@@ -44,6 +48,10 @@ public class SBMinecraft extends FMinecraft
 	@Override
 	public void command(String com)
 	{
-		this.server.handleRConCommand(com);
+		if (this.commandSender == null)
+		{
+			this.commandSender = new ComFuncSender(DimensionManager.getWorld(0), 0, 0, 0, "@");
+		}
+		this.server.getCommandManager().executeCommand(this.commandSender, com);
 	}
 }

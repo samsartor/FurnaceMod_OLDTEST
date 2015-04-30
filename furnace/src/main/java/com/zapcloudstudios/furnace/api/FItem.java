@@ -28,4 +28,10 @@ public abstract class FItem implements FurnaceI
 	{
 		return this.id.hashCode();
 	}
+	
+	@Override
+	public String toString()
+	{
+		return this.id;
+	}
 }

@@ -15,6 +15,7 @@ import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
+import com.zapcloudstudios.furnace.FurnaceUtils;
 import com.zapcloudstudios.furnace.api.FurnaceI;
 
 public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
@@ -252,7 +253,7 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 		FurnaceProp prop = this.props.get(name);
 		if (prop != null)
 		{
-			return prop.get();
+			return FurnaceUtils.fixType(Context.javaToJS(prop.get(), this));
 		}
 		return Scriptable.NOT_FOUND;
 	}
@@ -362,5 +363,11 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 	EvaluatorException notAnArrayError()
 	{
 		return Context.reportRuntimeError(String.format("%s is not an array", this.getClassName()));
+	}
+	
+	@Override
+	public String toString()
+	{
+		return String.valueOf(this.object);
 	}
 }

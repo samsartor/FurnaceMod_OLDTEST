@@ -37,6 +37,7 @@ minecraft
 dependencies 
 {
 	compile project(":furnace")
+	compile 'org.mozilla:rhino:1.7.6'
 }
 
 processResources
