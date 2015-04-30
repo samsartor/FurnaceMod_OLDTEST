@@ -1,4 +1,4 @@
-package com.zapcloudstudios.furnace.wrap;
+package com.zapcloudstudios.furnace.wrap.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,8 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface JSFunc
+@Target(ElementType.FIELD)
+public @interface APIProperty
 {
-	String name();
+	String value();
+	
+	boolean modifiable() default true;
 }

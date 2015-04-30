@@ -10,9 +10,7 @@ import com.zapcloudstudios.furnace.api.FBlock;
 import com.zapcloudstudios.furnace.api.FItem;
 import com.zapcloudstudios.furnace.api.FMinecraft;
 import com.zapcloudstudios.furnace.api.FurnaceI;
-import com.zapcloudstudios.furnace.wrap.FunctionRef;
 import com.zapcloudstudios.furnace.wrap.FurnaceWrapFactory;
-import com.zapcloudstudios.furnace.wrap.NativeFurnaceObject;
 import com.zapcloudstudios.furnace.wrap.PropMap;
 
 public class Furnace
@@ -108,31 +106,6 @@ public class Furnace
 		}
 	}
 	
-	public Scriptable getWrap(FurnaceI furn)
-	{
-		if (furn instanceof FItem)
-		{
-			Scriptable out = this.items.get(furn);
-			if (out == null)
-			{
-				out = new NativeFurnaceObject(furn);
-				this.items.put((FItem) furn, out);
-			}
-			return out;
-		}
-		if (furn instanceof FBlock)
-		{
-			Scriptable out = this.blocks.get(furn);
-			if (out == null)
-			{
-				out = new NativeFurnaceObject(furn);
-				this.blocks.put((FBlock) furn, out);
-			}
-			return out;
-		}
-		return new NativeFurnaceObject(furn);
-	}
-	
 	private Scriptable initItems()
 	{
 		PropMap items = new PropMap(true);
@@ -156,5 +129,10 @@ public class Furnace
 	public static Furnace instance()
 	{
 		return instance;
+	}
+	
+	public static Scriptable scope()
+	{
+		return instance.global;
 	}
 }

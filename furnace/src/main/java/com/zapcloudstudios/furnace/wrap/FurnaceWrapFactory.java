@@ -6,6 +6,7 @@ import org.mozilla.javascript.WrapFactory;
 
 import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.api.FurnaceI;
+import com.zapcloudstudios.furnace.wrap.object.FurnaceObject;
 
 public class FurnaceWrapFactory extends WrapFactory
 {
@@ -22,8 +23,7 @@ public class FurnaceWrapFactory extends WrapFactory
 		Scriptable wrapped = null;
 		if (javaObject instanceof FurnaceI)
 		{
-			FurnaceI o = (FurnaceI) javaObject;
-			wrapped = this.furnace.getWrap(o);
+			wrapped = new FurnaceObject((FurnaceI) javaObject);
 		}
 		if (wrapped == null)
 		{

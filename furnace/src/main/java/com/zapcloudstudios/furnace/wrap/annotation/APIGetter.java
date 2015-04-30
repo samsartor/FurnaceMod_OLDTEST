@@ -1,4 +1,4 @@
-package com.zapcloudstudios.furnace.wrap;
+package com.zapcloudstudios.furnace.wrap.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface JSGet
+public @interface APIGetter
 {
-	String name();
+	String value();
 }

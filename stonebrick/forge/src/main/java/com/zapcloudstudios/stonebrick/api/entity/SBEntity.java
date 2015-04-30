@@ -68,12 +68,6 @@ public class SBEntity extends FEntity
 	}
 	
 	@Override
-	public void kill()
-	{
-		this.entity.setDead();
-	}
-	
-	@Override
 	public double[] getPos()
 	{
 		return new double[] { this.entity.posX, this.entity.posY, this.entity.posZ };
