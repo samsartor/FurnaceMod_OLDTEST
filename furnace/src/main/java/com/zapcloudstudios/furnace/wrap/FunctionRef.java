@@ -7,6 +7,7 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.FurnaceUtils;
 
 public class FunctionRef extends BaseFunction
@@ -33,15 +34,15 @@ public class FunctionRef extends BaseFunction
 		}
 		for (int i = 0; i < args.length; i++)
 		{
-			System.out.println(args[i].getClass());
-			jargs[i] = FurnaceUtils.fixType(Context.jsToJava(args, argtypes[i]));
+			jargs[i] = FurnaceUtils.fixType(Context.jsToJava(args[i], argtypes[i]));
 		}
 		try
 		{
-			return Context.javaToJS(this.javaMethod.invoke(this.object, args), scope);
+			return Context.javaToJS(this.javaMethod.invoke(this.object, jargs), Furnace.instance().global);
 		}
 		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
 		{
+			e.printStackTrace();
 			return null;
 		}
 	}

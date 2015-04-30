@@ -18,12 +18,15 @@ import com.zapcloudstudios.stonebrick.api.SBMinecraft;
 
 public class StoneBrick implements IFurnaceImpl
 {
+	public static StoneBrick instance;
+	
 	public MinecraftServer server;
 	public SBMinecraft mc;
 	public Furnace furnace;
 	
 	public StoneBrick(MinecraftServer minecraftServer)
 	{
+		instance = this;
 		this.server = minecraftServer;
 		this.furnace = new Furnace(this);
 		this.mc = new SBMinecraft(this);

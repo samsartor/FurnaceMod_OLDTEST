@@ -15,6 +15,7 @@ import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
+import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.FurnaceUtils;
 import com.zapcloudstudios.furnace.api.FurnaceI;
 
@@ -157,7 +158,7 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 				JSSet jsset = m.getAnnotation(JSSet.class);
 				if (jsfunc != null)
 				{
-					
+					this.props.put(jsfunc.name(), new FurnacePropFunction(m));
 				}
 				else
 				{
@@ -253,7 +254,11 @@ public class NativeFurnaceObject implements Scriptable, Wrapper, Serializable
 		FurnaceProp prop = this.props.get(name);
 		if (prop != null)
 		{
-			return FurnaceUtils.fixType(Context.javaToJS(prop.get(), this));
+			if (prop instanceof FurnacePropFunction)
+			{
+				return prop.get();
+			}
+			return FurnaceUtils.fixType(Context.javaToJS(prop.get(), Furnace.instance().global));
 		}
 		return Scriptable.NOT_FOUND;
 	}

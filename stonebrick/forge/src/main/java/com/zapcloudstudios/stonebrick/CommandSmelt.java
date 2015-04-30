@@ -47,23 +47,19 @@ public class CommandSmelt extends CommandBase
 		}
 		catch (EcmaError e)
 		{
-			throw new CommandException("The furnace script could not be run", e);
+			e.printStackTrace();
+			throw new CommandException("The furnace script could not be run: " + e.getErrorMessage(), e);
 		}
 		catch (EvaluatorException e)
 		{
-			throw new CommandException("The furnace script could not be parsed", e);
+			e.printStackTrace();
+			throw new CommandException("The furnace script could not be run: " + e.getMessage(), e);
 		}
 		if (result != null)
 		{
-			if (result == this.context.undefned())
+			if (result != this.context.undefned())
 			{
-				throw new CommandException("The furnace script returned undefined");
-			}
-			else
-			{
-				
 				sender.addChatMessage(new ChatComponentText(String.valueOf(result)));
-				
 			}
 		}
 	}

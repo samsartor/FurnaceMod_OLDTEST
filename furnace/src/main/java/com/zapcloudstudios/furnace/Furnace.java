@@ -17,6 +17,8 @@ import com.zapcloudstudios.furnace.wrap.PropMap;
 
 public class Furnace
 {
+	private static Furnace instance;
+	
 	private Context context;
 	private ScriptableObject shared;
 	
@@ -29,6 +31,7 @@ public class Furnace
 	
 	public Furnace(IFurnaceImpl impl)
 	{
+		instance = this;
 		this.impl = impl;
 	}
 	
@@ -148,5 +151,10 @@ public class Furnace
 			blocks.put(FurnaceUtils.resourceIdToPropertyName(block.id), (Scriptable) Context.javaToJS(block, this.shared));
 		}
 		return blocks;
+	}
+	
+	public static Furnace instance()
+	{
+		return instance;
 	}
 }
