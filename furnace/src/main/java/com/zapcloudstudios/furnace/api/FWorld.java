@@ -22,6 +22,9 @@ public abstract class FWorld implements FurnaceI
 		return this.getEntitiesInBox(pos[0], pos[1], pos[2], distance);
 	}
 	
+	@APIFunction("loadedEntities")
+	public abstract FEntity[] getAllLoadedEntities();
+	
 	@APIFunction("pos")
 	public abstract FBlockPos getPos(int x, int y, int z);
 	

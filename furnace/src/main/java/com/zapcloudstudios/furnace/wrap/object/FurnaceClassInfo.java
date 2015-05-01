@@ -3,6 +3,7 @@ package com.zapcloudstudios.furnace.wrap.object;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import com.zapcloudstudios.furnace.api.FurnaceI;
@@ -31,21 +32,26 @@ public class FurnaceClassInfo
 	
 	FurnaceClassInfo(Class<? extends FurnaceI> clazz)
 	{
-		this.loadMembers(clazz);
+		this.loadMembers(clazz, null);
 	}
 	
-	void loadMembers(Class<?> clazz)
+	void loadMembers(Class<?> clazz, HashSet<Class<?>> loaded)
 	{
-		Class<?> parent = clazz.getSuperclass();
-		if (parent != null && FurnaceI.class.isAssignableFrom(parent))
+		if (loaded == null)
 		{
-			this.loadMembers(parent);
+			loaded = new HashSet<>();
+		}
+		loaded.add(clazz);
+		Class<?> parent = clazz.getSuperclass();
+		if (parent != null && !loaded.contains(parent) && FurnaceI.class.isAssignableFrom(parent))
+		{
+			this.loadMembers(parent, loaded);
 		}
 		for (Class<?> inter : clazz.getInterfaces())
 		{
-			if (FurnaceI.class.isAssignableFrom(inter))
+			if (!loaded.contains(inter) && FurnaceI.class.isAssignableFrom(inter))
 			{
-				this.loadMembers(inter);
+				this.loadMembers(inter, loaded);
 			}
 		}
 		for (Field f : clazz.getDeclaredFields())

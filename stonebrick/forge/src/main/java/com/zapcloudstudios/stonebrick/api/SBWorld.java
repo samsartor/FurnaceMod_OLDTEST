@@ -70,6 +70,21 @@ public class SBWorld extends FWorld
 	}
 	
 	@Override
+	public FEntity[] getAllLoadedEntities()
+	{
+		if (this.world != null)
+		{
+			FEntity[] out = new FEntity[this.world.loadedEntityList.size()];
+			for (int i = 0; i < out.length; i++)
+			{
+				out[i] = SBEntity.get((Entity) this.world.loadedEntityList.get(i));
+			}
+			return out;
+		}
+		return new FEntity[0];
+	}
+	
+	@Override
 	public FBlockPos getPos(int x, int y, int z)
 	{
 		return new SBBlockPos(this, x, y, z);

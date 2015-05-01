@@ -51,6 +51,7 @@ public class SBMinecraft extends FMinecraft
 		if (w == null)
 		{
 			w = new SBWorld(this.sb, dimention);
+			w.world = DimensionManager.getWorld(dimention);
 			this.worlds.put(dimention, w);
 		}
 		return w;

@@ -8,7 +8,7 @@ import com.zapcloudstudios.furnace.api.FWorld;
 import com.zapcloudstudios.furnace.api.entity.FEntity;
 import com.zapcloudstudios.stonebrick.StoneBrick;
 
-public class SBEntity extends FEntity
+public class SBEntity implements FEntity
 {
 	public Entity entity;
 	public StoneBrick sb = StoneBrick.instance;

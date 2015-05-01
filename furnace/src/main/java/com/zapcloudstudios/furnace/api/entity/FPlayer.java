@@ -1,11 +1,10 @@
 package com.zapcloudstudios.furnace.api.entity;
 
-import com.zapcloudstudios.furnace.api.FurnaceI;
 import com.zapcloudstudios.furnace.wrap.annotation.APIFunction;
 import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 import com.zapcloudstudios.furnace.wrap.annotation.APISetter;
 
-public interface FPlayer extends FurnaceI
+public interface FPlayer extends FEntity
 {
 	@APIGetter("xp")
 	public int getXP();

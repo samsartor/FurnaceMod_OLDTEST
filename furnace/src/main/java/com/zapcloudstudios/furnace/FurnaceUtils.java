@@ -2,6 +2,7 @@ package com.zapcloudstudios.furnace;
 
 import java.util.Iterator;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.EvaluatorException;
@@ -35,21 +36,25 @@ public class FurnaceUtils
 		Object[] jargs = null;
 		Iterator<MethodCall> calls = from.iterator();
 		
-		Class<?>[] types = new Class<?>[args.length];
 		while (calls.hasNext())
 		{
 			call = calls.next();
 			Class<?>[] pars = call.method.getParameterTypes();
-			if (types.length == pars.length)
+			if (args.length == pars.length)
 			{
 				jargs = new Object[args.length];
 				boolean match = true;
 				try
 				{
-					for (int j = 0; j < types.length; j++)
+					for (int j = 0; j < args.length; j++)
 					{
-						jargs[j] = Context.jsToJava(args[j], pars[j]);
-						match &= pars[j].isAssignableFrom(jargs[j].getClass());
+						if (jargs[j] != null)
+						{
+							jargs[j] = Context.jsToJava(args[j], pars[j]);
+							Class<?> argtype = jargs[j].getClass();
+							Class<?> partype = pars[j];
+							match &= ClassUtils.isAssignable(argtype, partype);
+						}
 					}
 				}
 				catch (EvaluatorException e)
