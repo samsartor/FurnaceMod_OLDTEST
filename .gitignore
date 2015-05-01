@@ -5,12 +5,9 @@
 *.classpath
 .recommenders/
 
-stonebrick/forge/bin/
 furnace/bin/
-stonebrick/forge/build/
 furnace/build/
-stonebrick/forge/config/
-stonebrick/forge/logs/
-stonebrick/forge/saves/
-stonebrick/forge/usernamecache.json
-stonebrick/forge/options.txt
+
+stonebrick/forge/
+!stonebrick/forge/src/
+!stonebrick/forge/build.gradle

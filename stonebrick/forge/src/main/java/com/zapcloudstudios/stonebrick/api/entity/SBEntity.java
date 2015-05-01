@@ -38,6 +38,12 @@ public class SBEntity extends FEntity
 	}
 	
 	@Override
+	public boolean isNameVisible()
+	{
+		return this.entity.getAlwaysRenderNameTag();
+	}
+	
+	@Override
 	public boolean getSilent()
 	{
 		return this.entity.isSilent();
@@ -74,9 +80,45 @@ public class SBEntity extends FEntity
 	}
 	
 	@Override
+	public void setPos(double[] pos)
+	{
+		this.entity.setPosition(pos[0], pos[1], pos[2]);
+	}
+	
+	@Override
 	public FWorld getWorld()
 	{
 		return this.sb.mc.getWorld(this.entity.dimension);
+	}
+	
+	@Override
+	public double[] getVel()
+	{
+		return new double[] { this.entity.motionX, this.entity.motionY, this.entity.motionZ };
+	}
+	
+	@Override
+	public void setVel(double[] vel)
+	{
+		this.entity.setVelocity(vel[0], vel[1], vel[2]);
+		this.entity.velocityChanged = true;
+	}
+	
+	@Override
+	public void move(double dx, double dy, double dz)
+	{
+		this.entity.moveEntity(dx, dy, dz);
+	}
+	
+	@Override
+	public void kill()
+	{
+		this.entity.worldObj.removeEntity(this.entity);
+	}
+	
+	public void dataChanged()
+	{
+		this.entity.getDataWatcher().func_111144_e();
 	}
 	
 	public static FEntity get(Entity entity)

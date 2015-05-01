@@ -7,7 +7,6 @@ import org.mozilla.javascript.EvaluatorException;
 
 import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.FurnaceException;
-import com.zapcloudstudios.furnace.api.FurnaceI;
 
 public class FurnaceFieldInfo extends FurnacePropInfo
 {
@@ -22,42 +21,42 @@ public class FurnaceFieldInfo extends FurnacePropInfo
 	}
 	
 	@Override
-	public Object get(FurnaceI object)
+	public Object get(FurnaceObject object)
 	{
 		Object result;
 		try
 		{
-			result = Context.javaToJS(this.field.get(object), Furnace.scope());
+			result = Context.javaToJS(this.field.get(object.object), Furnace.scope());
 		}
 		catch (IllegalArgumentException | IllegalAccessException e)
 		{
-			throw new FurnaceException("Could not get the value of %s.%s", e, object.typeName(), this.name);
+			throw new FurnaceException("Could not get the value of %s.%s", e, object.object.typeName(), this.name);
 		}
 		if (this.changer != null)
 		{
-			
+			//TODO Changers
 		}
 		return result;
 	}
 	
 	@Override
-	public void set(Object value, FurnaceI object)
+	public void set(Object value, FurnaceObject object)
 	{
 		if (this.readonly)
 		{
-			throw new FurnaceException("%s.%s is read-only", object.typeName(), this.name);
+			throw new FurnaceException("%s.%s is read-only", object.object.typeName(), this.name);
 		}
 		try
 		{
-			this.field.set(object, Context.jsToJava(value, this.field.getType()));
+			this.field.set(object.object, Context.jsToJava(value, this.field.getType()));
 		}
 		catch (IllegalArgumentException | IllegalAccessException e)
 		{
-			throw new FurnaceException("%s.%s could not be set", e, object.typeName(), this.name);
+			throw new FurnaceException("%s.%s could not be set", e, object.object.typeName(), this.name);
 		}
 		catch (EvaluatorException e)
 		{
-			throw new FurnaceException("%s.%s could not be set", e, object.typeName(), this.name);
+			throw new FurnaceException("%s.%s could not be set", e, object.object.typeName(), this.name);
 		}
 	}
 }

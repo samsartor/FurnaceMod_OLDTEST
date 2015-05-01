@@ -1,15 +1,19 @@
 package com.zapcloudstudios.stonebrick;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumChatFormatting;
+
 import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.IFurnaceImpl;
 import com.zapcloudstudios.furnace.api.FBlock;
+import com.zapcloudstudios.furnace.api.FChatFormatting;
 import com.zapcloudstudios.furnace.api.FItem;
 import com.zapcloudstudios.furnace.api.FMinecraft;
 import com.zapcloudstudios.stonebrick.api.SBBlock;
@@ -24,6 +28,9 @@ public class StoneBrick implements IFurnaceImpl
 	public SBMinecraft mc;
 	public Furnace furnace;
 	
+	public Map<Item, SBItem> items;
+	public Map<Block, SBBlock> blocks;
+	
 	public StoneBrick(MinecraftServer minecraftServer)
 	{
 		instance = this;
@@ -34,6 +41,24 @@ public class StoneBrick implements IFurnaceImpl
 	
 	public void start()
 	{
+		this.items = new HashMap<Item, SBItem>();
+		Iterator<?> it = Item.itemRegistry.iterator();
+		while (it.hasNext())
+		{
+			Item i = (Item) it.next();
+			if (!(i instanceof ItemBlock))
+			{
+				this.items.put(i, new SBItem(i));
+			}
+		}
+		this.blocks = new HashMap<Block, SBBlock>();
+		it = Block.blockRegistry.iterator();
+		while (it.hasNext())
+		{
+			Block b = (Block) it.next();
+			this.blocks.put(b, new SBBlock(b));
+		}
+		
 		this.furnace.enter();
 		this.furnace.init();
 	}
@@ -46,37 +71,16 @@ public class StoneBrick implements IFurnaceImpl
 	@Override
 	public FBlock[] listBlocks()
 	{
-		ArrayList<FBlock> blocks = new ArrayList<FBlock>();
-		
-		Iterator<?> it = Block.blockRegistry.iterator();
-		while (it.hasNext())
-		{
-			Block b = (Block) it.next();
-			blocks.add(new SBBlock(b));
-		}
-		
-		FBlock[] list = new FBlock[blocks.size()];
-		blocks.toArray(list);
+		FBlock[] list = new FBlock[this.blocks.size()];
+		this.blocks.values().toArray(list);
 		return list;
 	}
 	
 	@Override
 	public FItem[] listItems()
 	{
-		ArrayList<FItem> items = new ArrayList<FItem>();
-		
-		Iterator<?> it = Item.itemRegistry.iterator();
-		while (it.hasNext())
-		{
-			Item i = (Item) it.next();
-			if (!(i instanceof ItemBlock))
-			{
-				items.add(new SBItem(i));
-			}
-		}
-		
-		FItem[] list = new FItem[items.size()];
-		items.toArray(list);
+		FItem[] list = new FItem[this.items.size()];
+		this.items.values().toArray(list);
 		return list;
 	}
 	
@@ -84,5 +88,35 @@ public class StoneBrick implements IFurnaceImpl
 	public FMinecraft getMinecraft()
 	{
 		return this.mc;
+	}
+	
+	@Override
+	public FChatFormatting getChatFormatting()
+	{
+		FChatFormatting form = new FChatFormatting();
+		form.AQUA = EnumChatFormatting.AQUA.toString();
+		form.BLACK = EnumChatFormatting.BLACK.toString();
+		form.BLUE = EnumChatFormatting.BLUE.toString();
+		form.BOLD = EnumChatFormatting.BOLD.toString();
+		form.DARK_AQUA = EnumChatFormatting.DARK_AQUA.toString();
+		form.DARK_BLUE = EnumChatFormatting.DARK_BLUE.toString();
+		form.DARK_GRAY = EnumChatFormatting.DARK_GRAY.toString();
+		form.DARK_GREEN = EnumChatFormatting.DARK_GREEN.toString();
+		form.DARK_PURPLE = EnumChatFormatting.DARK_PURPLE.toString();
+		form.DARK_RED = EnumChatFormatting.DARK_RED.toString();
+		form.GOLD = EnumChatFormatting.GOLD.toString();
+		form.GRAY = EnumChatFormatting.GRAY.toString();
+		form.GREEN = EnumChatFormatting.GREEN.toString();
+		form.ITALIC = EnumChatFormatting.ITALIC.toString();
+		form.LIGHT_PURPLE = EnumChatFormatting.LIGHT_PURPLE.toString();
+		form.OBFUSCATED = EnumChatFormatting.OBFUSCATED.toString();
+		form.RED = EnumChatFormatting.RED.toString();
+		form.RESET = EnumChatFormatting.RESET.toString();
+		form.STRIKETHROUGH = EnumChatFormatting.STRIKETHROUGH.toString();
+		form.UNDERLINE = EnumChatFormatting.UNDERLINE.toString();
+		form.WHITE = EnumChatFormatting.WHITE.toString();
+		form.YELLOW = EnumChatFormatting.YELLOW.toString();
+		form.control = "\u00a7";
+		return form;
 	}
 }

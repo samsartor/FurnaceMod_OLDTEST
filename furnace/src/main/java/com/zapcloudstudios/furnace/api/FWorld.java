@@ -1,12 +1,12 @@
 package com.zapcloudstudios.furnace.api;
 
 import com.zapcloudstudios.furnace.api.entity.FEntity;
-import com.zapcloudstudios.furnace.wrap.JSFunc;
-import com.zapcloudstudios.furnace.wrap.JSProp;
+import com.zapcloudstudios.furnace.wrap.annotation.APIConst;
+import com.zapcloudstudios.furnace.wrap.annotation.APIFunction;
 
 public abstract class FWorld implements FurnaceI
 {
-	@JSProp(name = "dim", isConst = true)
+	@APIConst("dim")
 	public final int dimention;
 	
 	public FWorld(int dimention)
@@ -16,10 +16,19 @@ public abstract class FWorld implements FurnaceI
 	
 	public abstract FEntity[] getEntitiesInBox(double x, double y, double z, double distance);
 	
-	@JSFunc(name = "findEntitiesAt")
+	@APIFunction("findEntitiesAt")
 	public FEntity[] findEntitiesAt(double[] pos, double distance)
 	{
 		return this.getEntitiesInBox(pos[0], pos[1], pos[2], distance);
+	}
+	
+	@APIFunction("pos")
+	public abstract FBlockPos getPos(int x, int y, int z);
+	
+	@APIFunction("getBlock")
+	public FBlock getBlock(int x, int y, int z)
+	{
+		return this.getPos(x, y, z).block();
 	}
 	
 	@Override

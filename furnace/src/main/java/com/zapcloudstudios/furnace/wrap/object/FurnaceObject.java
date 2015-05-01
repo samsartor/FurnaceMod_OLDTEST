@@ -9,6 +9,8 @@ public class FurnaceObject implements Scriptable, Wrapper
 {
 	public FurnaceI object;
 	
+	public FurnaceClassInfo classinfo;
+	
 	public FurnaceObject(FurnaceI object)
 	{
 		this.object = object;

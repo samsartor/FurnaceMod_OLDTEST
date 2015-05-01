@@ -1,14 +1,14 @@
 package com.zapcloudstudios.furnace.api;
 
-import com.zapcloudstudios.furnace.wrap.JSGet;
-import com.zapcloudstudios.furnace.wrap.JSProp;
+import com.zapcloudstudios.furnace.wrap.annotation.APIConst;
+import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 
 public abstract class FBlock implements FurnaceI
 {
-	@JSProp(name = "id", isConst = true)
+	@APIConst("id")
 	public String id;
 	
-	@JSGet(name = "item")
+	@APIGetter("item")
 	public abstract FItem item();
 	
 	@Override

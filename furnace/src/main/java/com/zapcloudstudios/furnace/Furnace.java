@@ -89,6 +89,8 @@ public class Furnace
 		ScriptableObject.putConstProperty(this.global, "nether", Context.javaToJS(mc.getWorld(-1), this.shared));
 		ScriptableObject.putConstProperty(this.global, "theend", Context.javaToJS(mc.getWorld(1), this.shared));
 		
+		ScriptableObject.putConstProperty(this.global, "formatting", Context.javaToJS(this.impl.getChatFormatting(), this.shared));
+		
 		this.putShortcut("chat", mc, "sendChat", String.class);
 		this.putShortcut("command", mc, "command", String.class);
 		//this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);

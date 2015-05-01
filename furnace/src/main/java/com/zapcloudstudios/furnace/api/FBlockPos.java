@@ -1,35 +1,38 @@
 package com.zapcloudstudios.furnace.api;
 
-import com.zapcloudstudios.furnace.wrap.JSFunc;
-import com.zapcloudstudios.furnace.wrap.JSGet;
-import com.zapcloudstudios.furnace.wrap.JSProp;
+import com.zapcloudstudios.furnace.wrap.annotation.APIConst;
+import com.zapcloudstudios.furnace.wrap.annotation.APIFunction;
+import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 
 public abstract class FBlockPos implements FurnaceI
 {
-	@JSProp(isConst = true, name = "x")
+	@APIConst("world")
+	public final FWorld world;
+	@APIConst("x")
 	public final int x;
-	@JSProp(isConst = true, name = "y")
+	@APIConst("y")
 	public final int y;
-	@JSProp(isConst = true, name = "z")
+	@APIConst("z")
 	public final int z;
 	
-	public FBlockPos(int x, int y, int z)
+	public FBlockPos(FWorld world, int x, int y, int z)
 	{
+		this.world = world;
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 	
-	@JSGet(name = "pos")
+	@APIGetter("pos")
 	public int[] pos()
 	{
 		return new int[] { this.x, this.y, this.z };
 	}
 	
-	@JSFunc(name = "block")
+	@APIFunction("block")
 	public abstract FBlock block();
 	
-	@JSFunc(name = "meta")
+	@APIFunction("meta")
 	public abstract int meta();
 	
 	@Override

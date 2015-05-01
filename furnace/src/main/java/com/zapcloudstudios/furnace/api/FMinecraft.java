@@ -1,17 +1,17 @@
 package com.zapcloudstudios.furnace.api;
 
 import com.zapcloudstudios.furnace.api.entity.FPlayer;
-import com.zapcloudstudios.furnace.wrap.JSFunc;
-import com.zapcloudstudios.furnace.wrap.JSGet;
+import com.zapcloudstudios.furnace.wrap.annotation.APIFunction;
+import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 
 public abstract class FMinecraft implements FurnaceI
 {
 	public abstract void sendChat(String msg);
 	
-	@JSFunc(name = "getWorld")
+	@APIFunction("getWorld")
 	public abstract FWorld getWorld(int dimention);
 	
-	@JSGet(name = "players")
+	@APIGetter("players")
 	public abstract FPlayer[] getPlayers();
 	
 	public abstract void command(String com);

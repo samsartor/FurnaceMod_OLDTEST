@@ -1,10 +1,10 @@
 package com.zapcloudstudios.furnace.api;
 
-import com.zapcloudstudios.furnace.wrap.JSProp;
+import com.zapcloudstudios.furnace.wrap.annotation.APIConst;
 
 public abstract class FItem implements FurnaceI
 {
-	@JSProp(name = "id", isConst = true)
+	@APIConst("id")
 	public String id;
 	
 	@Override
