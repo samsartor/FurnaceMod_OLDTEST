@@ -1,7 +1,5 @@
 package com.zapcloudstudios.furnace;
 
-import java.util.HashMap;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -9,7 +7,7 @@ import org.mozilla.javascript.ScriptableObject;
 import com.zapcloudstudios.furnace.api.FBlock;
 import com.zapcloudstudios.furnace.api.FItem;
 import com.zapcloudstudios.furnace.api.FMinecraft;
-import com.zapcloudstudios.furnace.api.FurnaceI;
+import com.zapcloudstudios.furnace.wrap.FunctionFowarder;
 import com.zapcloudstudios.furnace.wrap.FurnaceWrapFactory;
 import com.zapcloudstudios.furnace.wrap.PropMap;
 
@@ -23,9 +21,6 @@ public class Furnace
 	public Scriptable global;
 	
 	public final IFurnaceImpl impl;
-	
-	private HashMap<FItem, Scriptable> items;
-	private HashMap<FBlock, Scriptable> blocks;
 	
 	public Furnace(IFurnaceImpl impl)
 	{
@@ -61,7 +56,6 @@ public class Furnace
 	public Scriptable newObject()
 	{
 		Scriptable o = this.context.newObject(this.shared);
-		o.setPrototype(this.shared);
 		o.setParentScope(this.global);
 		return o;
 	}
@@ -73,11 +67,9 @@ public class Furnace
 			return;
 		}
 		
-		this.blocks = new HashMap<FBlock, Scriptable>();
-		this.items = new HashMap<FItem, Scriptable>();
-		
-		this.global = null;
-		this.global = this.newObject();
+		this.global = this.context.newObject(this.shared);
+		this.global.setParentScope(null);
+		this.global.setPrototype(this.shared);
 		
 		ScriptableObject.putConstProperty(this.global, "items", this.initItems());
 		ScriptableObject.putConstProperty(this.global, "blocks", this.initBlocks());
@@ -91,21 +83,20 @@ public class Furnace
 		
 		ScriptableObject.putConstProperty(this.global, "formatting", Context.javaToJS(this.impl.getChatFormatting(), this.shared));
 		
-		this.putShortcut("chat", mc, "sendChat", String.class);
-		this.putShortcut("command", mc, "command", String.class);
+		FunctionFowarder sendChat = this.addFunction("chat").functionOnly();
+		sendChat.addCall(mc, "sendChat", String.class);
+		sendChat.addCall(mc, "sendChat", String.class, String.class);
+		
+		this.addFunction("command").functionOnly().addCall(mc, "command", String.class);
+		
 		//this.putShortcut("commandAt", mc, "command", Double.class, Double.class, Double.class, String.class);
 	}
 	
-	public void putShortcut(String name, Object object, String function, Class<?>... args)
+	public FunctionFowarder addFunction(String name)
 	{
-		try
-		{
-			ScriptableObject.putConstProperty(this.global, name, new FunctionRef(object.getClass().getMethod(function, args), object));
-		}
-		catch (NoSuchMethodException | SecurityException e)
-		{
-			e.printStackTrace();
-		}
+		FunctionFowarder func = new FunctionFowarder();
+		ScriptableObject.putConstProperty(this.global, name, func);
+		return func;
 	}
 	
 	private Scriptable initItems()

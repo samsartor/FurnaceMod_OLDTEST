@@ -2,7 +2,6 @@ package com.zapcloudstudios.furnace.api.entity;
 
 import com.zapcloudstudios.furnace.api.FWorld;
 import com.zapcloudstudios.furnace.api.FurnaceI;
-import com.zapcloudstudios.furnace.wrap.annotation.APIChanger;
 import com.zapcloudstudios.furnace.wrap.annotation.APIFunction;
 import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 import com.zapcloudstudios.furnace.wrap.annotation.APISetter;
@@ -44,7 +43,6 @@ public abstract class FEntity implements FurnaceI
 	@APIGetter("pos")
 	public abstract double[] getPos();
 	
-	@APIChanger("pos")
 	@APISetter("pos")
 	public abstract void setPos(double[] pos);
 	
@@ -54,7 +52,6 @@ public abstract class FEntity implements FurnaceI
 	@APIGetter("vel")
 	public abstract double[] getVel();
 	
-	@APIChanger("vel")
 	@APISetter("vel")
 	public abstract void setVel(double[] pos);
 	

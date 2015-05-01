@@ -8,6 +8,8 @@ public abstract class FMinecraft implements FurnaceI
 {
 	public abstract void sendChat(String msg);
 	
+	public abstract void sendChat(String from, String msg);
+	
 	@APIFunction("getWorld")
 	public abstract FWorld getWorld(int dimention);
 	

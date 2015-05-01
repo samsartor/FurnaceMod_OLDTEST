@@ -7,6 +7,8 @@ import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.DimensionManager;
 
 import com.zapcloudstudios.furnace.api.FMinecraft;
@@ -34,6 +36,12 @@ public class SBMinecraft extends FMinecraft
 	public void sendChat(String msg)
 	{
 		this.server.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+	}
+	
+	@Override
+	public void sendChat(String from, String msg)
+	{
+		this.server.getConfigurationManager().sendChatMsg(this.createChatFrom(from, msg));
 	}
 	
 	@Override
@@ -68,5 +76,10 @@ public class SBMinecraft extends FMinecraft
 			out[i] = new SBPlayer((EntityPlayer) players.get(i));
 		}
 		return out;
+	}
+	
+	public IChatComponent createChatFrom(String from, String msg)
+	{
+		return new ChatComponentTranslation("chat.type.text", new ChatComponentText(from), new ChatComponentText(msg));
 	}
 }

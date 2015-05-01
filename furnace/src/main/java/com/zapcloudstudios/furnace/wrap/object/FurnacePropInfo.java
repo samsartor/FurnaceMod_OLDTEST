@@ -1,13 +1,9 @@
 package com.zapcloudstudios.furnace.wrap.object;
 
-import java.lang.reflect.Field;
-
 public abstract class FurnacePropInfo
 {
 	public final FurnaceClassInfo classinfo;
 	public final String name;
-	
-	public Field changer = null;
 	
 	public FurnacePropInfo(FurnaceClassInfo classinfo, String name)
 	{

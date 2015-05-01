@@ -23,20 +23,14 @@ public class FurnaceFieldInfo extends FurnacePropInfo
 	@Override
 	public Object get(FurnaceObject object)
 	{
-		Object result;
 		try
 		{
-			result = Context.javaToJS(this.field.get(object.object), Furnace.scope());
+			return Context.javaToJS(this.field.get(object.object), Furnace.scope());
 		}
 		catch (IllegalArgumentException | IllegalAccessException e)
 		{
 			throw new FurnaceException("Could not get the value of %s.%s", e, object.object.typeName(), this.name);
 		}
-		if (this.changer != null)
-		{
-			//TODO Changers
-		}
-		return result;
 	}
 	
 	@Override

@@ -57,10 +57,7 @@ public class CommandSmelt extends CommandBase
 		}
 		if (result != null)
 		{
-			if (result != this.context.undefned())
-			{
-				sender.addChatMessage(new ChatComponentText(String.valueOf(result)));
-			}
+			sender.addChatMessage(new ChatComponentText(String.valueOf(result)));
 		}
 	}
 }

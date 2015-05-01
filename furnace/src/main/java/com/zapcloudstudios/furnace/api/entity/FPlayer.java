@@ -22,6 +22,9 @@ public interface FPlayer extends FurnaceI
 	@APIFunction("tell")
 	public void sendChat(String msg);
 	
+	@APIFunction("tell")
+	public void sendChat(String from, String msg);
+	
 	@APIFunction("addPrefix")
 	public void addPrefix(String text);
 	

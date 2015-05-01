@@ -2,7 +2,6 @@ package com.zapcloudstudios.stonebrick.api.entity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-
 import com.zapcloudstudios.furnace.api.entity.FPlayer;
 
 public class SBPlayer extends SBEntity implements FPlayer
@@ -76,6 +75,12 @@ public class SBPlayer extends SBEntity implements FPlayer
 	public void sendChat(String msg)
 	{
 		this.player.addChatComponentMessage(new ChatComponentText(msg));
+	}
+	
+	@Override
+	public void sendChat(String from, String msg)
+	{
+		this.player.addChatComponentMessage(this.sb.mc.createChatFrom(from, msg));
 	}
 	
 	@Override

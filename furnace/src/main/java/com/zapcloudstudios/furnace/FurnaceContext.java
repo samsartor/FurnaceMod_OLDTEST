@@ -2,6 +2,7 @@ package com.zapcloudstudios.furnace;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Wrapper;
 
 public class FurnaceContext
 {
@@ -16,11 +17,19 @@ public class FurnaceContext
 	
 	public Object eval(String name, String js)
 	{
-		return this.context.evaluateString(this.scope, js, name, 0, null);
-	}
-	
-	public Object undefned()
-	{
-		return Context.getUndefinedValue();
+		Object value = this.context.evaluateString(this.scope, js, name, 0, null);
+		if (value == null)
+		{
+			return null;
+		}
+		if (value == Context.getUndefinedValue())
+		{
+			return null;
+		}
+		if (value instanceof Wrapper)
+		{
+			value = ((Wrapper) value).unwrap();
+		}
+		return value;
 	}
 }

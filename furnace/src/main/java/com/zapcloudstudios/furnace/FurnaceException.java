@@ -9,7 +9,7 @@ public class FurnaceException extends RuntimeException
 		super(String.format(msg, arg));
 	}
 	
-	public FurnaceException(String msg, Exception cause, Object... arg)
+	public FurnaceException(String msg, Throwable cause, Object... arg)
 	{
 		super(String.format(msg, arg), cause);
 	}

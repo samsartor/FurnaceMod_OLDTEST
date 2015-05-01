@@ -1,11 +1,18 @@
 package com.zapcloudstudios.furnace.wrap.object;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
 
+import com.zapcloudstudios.furnace.Furnace;
 import com.zapcloudstudios.furnace.FurnaceException;
+import com.zapcloudstudios.furnace.FurnaceUtils;
 import com.zapcloudstudios.furnace.api.FurnaceI;
+import com.zapcloudstudios.furnace.wrap.MethodCall;
 
 public class FurnaceFunctionInfo extends FurnacePropInfo
 {
@@ -71,7 +78,7 @@ public class FurnaceFunctionInfo extends FurnacePropInfo
 		@Override
 		public Scriptable getPrototype()
 		{
-			return null;
+			return ScriptableObject.getFunctionPrototype(Furnace.scope());
 		}
 		
 		@Override
@@ -121,6 +128,8 @@ public class FurnaceFunctionInfo extends FurnacePropInfo
 		}
 	}
 	
+	public ArrayList<Method> methods = new ArrayList<Method>(1);
+	
 	public FurnaceFunctionInfo(FurnaceClassInfo classinfo, String name)
 	{
 		super(classinfo, name);
@@ -128,8 +137,14 @@ public class FurnaceFunctionInfo extends FurnacePropInfo
 	
 	public Object call(FurnaceI object, Object[] args)
 	{
-		//TODO Functions
-		return null;
+		try
+		{
+			return FurnaceUtils.invokeAMethod(MethodCall.merge(this.methods, object), args);
+		}
+		catch (MethodCall.CallException e)
+		{
+			throw new FurnaceException("Failed to call %s.%s", e.getCause(), object.typeName(), this.name);
+		}
 	}
 	
 	@Override
