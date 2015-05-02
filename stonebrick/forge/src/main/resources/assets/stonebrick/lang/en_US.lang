@@ -1,1 +1,2 @@
-commands.smelt.usage=/smelt [furnace code]
+commands.runjs.usage=/runjs [furnace code]
+commands.runscript.usage=/runscript [script file]

@@ -48,9 +48,9 @@ public class FurnaceUtils
 				{
 					for (int j = 0; j < args.length; j++)
 					{
+						jargs[j] = Context.jsToJava(args[j], pars[j]);
 						if (jargs[j] != null)
 						{
-							jargs[j] = Context.jsToJava(args[j], pars[j]);
 							Class<?> argtype = jargs[j].getClass();
 							Class<?> partype = pars[j];
 							match &= ClassUtils.isAssignable(argtype, partype);

@@ -6,9 +6,9 @@ import com.zapcloudstudios.furnace.wrap.annotation.APIGetter;
 
 public abstract class FMinecraft implements FurnaceI
 {
-	public abstract void sendChat(String msg);
+	public abstract void sendChat(Object msg);
 	
-	public abstract void sendChat(String from, String msg);
+	public abstract void sendChat(String from, Object msg);
 	
 	@APIFunction("getWorld")
 	public abstract FWorld getWorld(int dimention);

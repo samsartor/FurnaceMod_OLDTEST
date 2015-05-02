@@ -17,7 +17,7 @@ public class FurnaceContext
 	
 	public Object eval(String name, String js)
 	{
-		Object value = this.context.evaluateString(this.scope, js, name, 0, null);
+		Object value = this.context.evaluateString(this.scope, js, name + String.format("%04x", (int) (Math.random() * 0x10000)), 0, null);
 		if (value == null)
 		{
 			return null;

@@ -43,7 +43,8 @@ public class StoneBrickMod
 	public void onServerStart(FMLServerStartingEvent event)
 	{
 		this.sb.start();
-		event.registerServerCommand(new CommandSmelt(this.sb.furnace.makeContext()));
+		event.registerServerCommand(new CommandRunJS(this.sb.furnace.makeContext()));
+		event.registerServerCommand(new CommandRunScript(this.sb));
 	}
 	
 	@EventHandler

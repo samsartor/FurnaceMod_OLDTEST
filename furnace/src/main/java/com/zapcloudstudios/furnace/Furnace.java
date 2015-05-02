@@ -84,8 +84,8 @@ public class Furnace
 		ScriptableObject.putConstProperty(this.global, "formatting", Context.javaToJS(this.impl.getChatFormatting(), this.shared));
 		
 		FunctionFowarder sendChat = this.addFunction("chat").functionOnly();
-		sendChat.addCall(mc, "sendChat", String.class);
-		sendChat.addCall(mc, "sendChat", String.class, String.class);
+		sendChat.addCall(mc, "sendChat", Object.class);
+		sendChat.addCall(mc, "sendChat", String.class, Object.class);
 		
 		this.addFunction("command").functionOnly().addCall(mc, "command", String.class);
 		

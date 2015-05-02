@@ -33,15 +33,15 @@ public class SBMinecraft extends FMinecraft
 	}
 	
 	@Override
-	public void sendChat(String msg)
+	public void sendChat(Object msg)
 	{
-		this.server.getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+		this.server.getConfigurationManager().sendChatMsg(new ChatComponentText(String.valueOf(msg)));
 	}
 	
 	@Override
-	public void sendChat(String from, String msg)
+	public void sendChat(String from, Object msg)
 	{
-		this.server.getConfigurationManager().sendChatMsg(this.createChatFrom(from, msg));
+		this.server.getConfigurationManager().sendChatMsg(this.createChatFrom(from, String.valueOf(msg)));
 	}
 	
 	@Override

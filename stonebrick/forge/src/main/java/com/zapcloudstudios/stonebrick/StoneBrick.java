@@ -1,5 +1,7 @@
 package com.zapcloudstudios.stonebrick;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +30,11 @@ public class StoneBrick implements IFurnaceImpl
 	public SBMinecraft mc;
 	public Furnace furnace;
 	
+	public File worldDir;
+	public File scriptDir;
+	
+	public HashMap<String, FurnaceScript> scripts;
+	
 	public Map<Item, SBItem> items;
 	public Map<Block, SBBlock> blocks;
 	
@@ -41,6 +48,28 @@ public class StoneBrick implements IFurnaceImpl
 	
 	public void start()
 	{
+		this.scripts = new HashMap<String, FurnaceScript>();
+		
+		this.worldDir = this.server.getEntityWorld().getSaveHandler().getWorldDirectory();
+		this.scriptDir = new File(this.worldDir, "scripts/");
+		
+		if (this.scriptDir.exists())
+		{
+			for (File script : this.scriptDir.listFiles(new FilenameFilter()
+			{
+				@Override
+				public boolean accept(File dir, String name)
+				{
+					return name.endsWith(".js");
+				}
+			}))
+			{
+				FurnaceScript fscript = new FurnaceScript(script);
+				fscript.reload();
+				this.scripts.put(script.getName().substring(0, script.getName().length() - 3), fscript);
+			}
+		}
+		
 		this.items = new HashMap<Item, SBItem>();
 		Iterator<?> it = Item.itemRegistry.iterator();
 		while (it.hasNext())
